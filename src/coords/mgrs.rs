@@ -811,7 +811,8 @@ pub(crate) fn check_coords(utmp: bool, northp: bool, x: f64, y: f64) -> Result<(
     }
 
     let (northp_new, y_new) = if utmp {
-        if northp && y_int < MINUTM_S_ROW {
+        // was MINUTM_S_ROW, causing unwanted flip at equator when y_int = 0
+        if northp && y_int < MINUTM_N_ROW {
             (false, y_new + f64::from(UTM_N_SHIFT))
         } else if !northp && y_int >= MAXUTM_S_ROW {
             if y.eps_eq(f64::from(MAXUTM_S_ROW * TILE)) {
